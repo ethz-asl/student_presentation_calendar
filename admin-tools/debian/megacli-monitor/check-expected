@@ -1,0 +1,23 @@
+#!/bin/bash
+
+EXPECTED_FILE=$1
+shift
+CURRENT_FILE=$1
+shift
+
+ADDRESS=$1
+shift
+
+cat > $CURRENT_FILE
+
+if [ -z "$ADDRESS" ] ; then
+        echo "USAGE: $0 <EXPECTED_FILE> <INTO_CURRENT_FILE> <NOTIFY_OF_DIFFERENCE_ADDRESS>"
+        exit -1;
+fi
+
+if ! cmp -s "$CURRENT_FILE" "$EXPECTED_FILE"; then
+        colordiff -y $CURRENT_FILE $EXPECTED_FILE |aha | mail -a "Content-type: text/html" -s "$EXPECTED_FILE differs from current output" $ADDRESS
+	exit 1
+fi
+exit 0
+
