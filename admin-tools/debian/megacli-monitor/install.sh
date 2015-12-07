@@ -1,9 +1,9 @@
 #!/bin/bash
 
-sudo apt-get install aha colordiff
+sudo apt-get install aha colordiff realpath
 
-DIR=$(dirname $0)
+DIR=$(realpath $(dirname ${BASH_SOURCE[0]}))
 
-sudo ln -nsv $DIR /root/megacli-monitor
-sudo cp -i megacli-cron /etc/cron.d/
+sudo ln -nsiv $DIR /root/megacli-monitor
+sudo cp -vi megacli-cron /etc/cron.d/
 
