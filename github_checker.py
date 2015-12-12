@@ -2,6 +2,7 @@
 
 from github import Github
 import sys
+import os
 import getpass
 
 if __name__ == "__main__":
@@ -9,12 +10,14 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         print "Usage: ", sys.argv[0], " username"
         sys.exit()
-    
+
     username = sys.argv[1]
-    password = getpass.getpass("Enter password for %s: " % username)
-    
+    password = os.environ["GITHUB_PASSWORD"]
+    if not password:
+        password = getpass.getpass("Enter password for %s: " % username)
+
     g = Github(username, password)
-        
+
     print "The following repos have not been updated in the last year:"
     repos = g.get_user().get_repos()[:]
     for repo in repos:
@@ -23,4 +26,4 @@ if __name__ == "__main__":
         #d = dir(repo)
         #for item in d:
         #    print item
-        #sys.exit()        
+        #sys.exit()
