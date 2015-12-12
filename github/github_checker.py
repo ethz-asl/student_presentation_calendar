@@ -5,7 +5,7 @@ import os
 import getpass
 
 try:
-    from githu import Github, GithubException
+    from github import Github, GithubException
 except Exception:
     print("Unable to import github module (from PyGithub library).")
     print("This program needs PyGithub (http://jacquev6.net/PyGithub/v1/introduction.html).")
@@ -13,6 +13,7 @@ except Exception:
     print("  easy_install PyGithub")
     print("or")
     print("  pip install PyGithub")
+    sys.exit()
 
 if __name__ == "__main__":
 
