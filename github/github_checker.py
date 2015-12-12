@@ -1,10 +1,18 @@
 #!/usr/bin/env python
 
-from github import Github, GithubException
-#github.GithubException.BadCredentialsException
 import sys
 import os
 import getpass
+
+try:
+    from githu import Github, GithubException
+except Exception:
+    print("Unable to import github module (from PyGithub library).")
+    print("This program needs PyGithub (http://jacquev6.net/PyGithub/v1/introduction.html).")
+    print("Install using (e.g.):")
+    print("  easy_install PyGithub")
+    print("or")
+    print("  pip install PyGithub")
 
 if __name__ == "__main__":
 
