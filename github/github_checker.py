@@ -4,7 +4,9 @@ import sys
 import os
 import getpass
 import exceptions
-
+import datetime
+from dateutil.relativedelta import relativedelta
+    
 try:
     from github import Github, GithubException
 except exceptions.ImportError:
@@ -33,10 +35,11 @@ if __name__ == "__main__":
     try:
         g = Github(username, password)
         repos = g.get_user().get_repos()[:]
+        a_year_ago =  datetime.datetime.now() - relativedelta(years=1)
         
         print "The following repos have not been updated in the last year:"
         for repo in repos:
-            if repo.updated_at.year < 2015: # and repo.private:
+            if repo.updated_at < a_year_ago: # and repo.private:
                 print repo.name + ", last updated: " + str(repo.updated_at)
             #d = dir(repo)
             #for item in d:
