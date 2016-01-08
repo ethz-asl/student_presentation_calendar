@@ -11,7 +11,7 @@ try:
     from github import Github, GithubException
 except exceptions.ImportError:
     print("Unable to import from github module (PyGithub library).")
-    print("This program needs PyGithub (http://jacquev6.net/PyGithub/v1/introduction.html).")
+    print("This program needs PyGithub (http://pygithub.github.io/PyGithub/v1/index.html).")
     print("Install using (e.g.):")
     print("  easy_install PyGithub")
     print("or")
