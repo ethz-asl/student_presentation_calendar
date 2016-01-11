@@ -60,7 +60,7 @@ def query_yes_no(question, default="yes"):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description='XXX.')
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('username', type=str,
                         help='Github username')
     parser.add_argument('-o', '--organization', dest='organization', type=str,
@@ -69,9 +69,9 @@ if __name__ == "__main__":
     parser.add_argument('-c', '--check-only', dest='check_only',
                         action='store_true',
                         help='only check for outdated repos (no updates in last year) and print list, no further action taken (off by default)')
-    parser.add_argument('-b', '--blacklist', dest='blacklist',
+    parser.add_argument('-b', '--blacklist', dest='blacklist', type=str,
                         help='blacklist text file with repositories to be archived, one by line (if set no check for outdated repos will be done)')
-    parser.add_argument('-w', '--whitelist', dest='whitelist',
+    parser.add_argument('-w', '--whitelist', dest='whitelist', type=str,
                         help='whitelist text file with repositories to be ignored, one by line (overrides items in blacklist)')
     parser.add_argument('-n', '--do-not-archive', dest='do_not_archive',
                         action='store_true',
@@ -118,15 +118,15 @@ if __name__ == "__main__":
                 whitelisted = [x.strip('\n') for x in f.readlines()]
             repo_list = [x for x in repo_list if x not in whitelisted]
 
+        print "Repos flagged for archival:"
+        for r in repo_list: print "    " + r
+        sys.stdout.write("\n")
+
         # Archive repo: clone repo, wiki, and pickle issues (into current
         # working directory)
-        if not args.do_not_archive:
-            print "Repos flagged for archival:"
-            for r in repo_list: print "    " + r
-            sys.stdout.write("\n")
-
         for r in repo_list:
             if args.do_not_archive:
+                print "Repos will not be archived (-n option)"
                 break
 
             print "Archiving " + r + "..."
@@ -136,7 +136,7 @@ if __name__ == "__main__":
             if os.path.exists(os.getcwd() + "/" + r):
                 print "!!! Could not clone " + r + ", name already exists in current directory."
             else:
-                ret = subprocess.call("git clone " + repo.ssh_url, shell=True)
+                ret = subprocess.call("git clone --mirror " + repo.ssh_url, shell=True)
                 if ret == 0:
                     print r + " cloned successfully."
                 else:
@@ -147,7 +147,7 @@ if __name__ == "__main__":
             if os.path.exists(os.getcwd() + "/" + r + ".wiki"):
                 print "!!! Could not clone " + r + "'s wiki, name already exists in current directory."
             else:
-                ret = subprocess.call("git clone " + repo.ssh_url[:-3] + "wiki.git", shell=True)
+                ret = subprocess.call("git clone --mirror " + repo.ssh_url[:-3] + "wiki.git", shell=True)
                 if ret == 0:
                     print r + "'s wiki cloned successfully."
                 else:
