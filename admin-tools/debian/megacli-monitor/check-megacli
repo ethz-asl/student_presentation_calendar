@@ -1,3 +1,0 @@
-#!/bin/bash
-DIR=$(dirname $0)
-/usr/sbin/megacli -LDInfo -LAll -aall -NoLog | grep -v "^Current Cache Policy:" | sed -s 's/Completed [0-9]*%, Taken [0-9]* min./Completed ??%, Taken ?? min./g' | $DIR/check-expected $DIR/megacli-ldinfo.expected.output $DIR/megacli-ldinfo.last.output hannes
