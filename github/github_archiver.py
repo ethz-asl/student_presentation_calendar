@@ -13,7 +13,15 @@ import datetime
 import argparse
 import subprocess
 import pickle
-from dateutil.relativedelta import relativedelta
+
+try:
+    from dateutil.relativedelta import relativedelta
+except exceptions.ImportError:
+    print("Unable to import from dateutil module.")
+    print("This program needs python-dateutil")
+    print("Install using (e.g.):")
+    print("  sudo apt-get install python-dateutil")
+    sys.exit()
 
 try:
     from github import Github, GithubException
