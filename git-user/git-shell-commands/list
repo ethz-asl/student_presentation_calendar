@@ -1,0 +1,7 @@
+#!/bin/bash
+IFS=$'\n'
+for i in $(cd ~; find archive -maxdepth 4 -name config | sort); do 
+	dir=${i%/config}
+	SIZE=$(du -hs $dir | cut -d$'\t'  -f 1)
+	echo "git clone git@data.asl.ethz.ch:$dir	($SIZE)";
+done
