@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 """
-This script allows to identify old repositories on a Github organization and
-archive them locally.
+This script allows to restore repos archived with the github_archiver
+script.
 """
 
 import sys
