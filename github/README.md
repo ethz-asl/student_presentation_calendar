@@ -8,6 +8,8 @@ manage a huge number of repositories.
 
 The scripts require the Python packages `PyGithub` and `python-dateutil`.
 
+For specifics on how to store and restore ASL repositories, see [lab-infrastructure-private](https://github.com/ethz-asl/lab-infrastructure-private).
+
 ##github_archiver
 Script to check for unused repos on a Github organization and archive them locally (removing them from Github).
 
