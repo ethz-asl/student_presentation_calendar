@@ -1,7 +1,7 @@
 # lab-infrastructure's Github utils
 
 The two Python scripts in this directory allow you to download an archival copy of a Github repository
-and then to restore it if needed. They also allow you to check for outdated repositories in your organization.
+and then to restore it if needed. They also allow you to *check for outdated repositories in your organization*.
 The motivation of these tools is to take old, unused repositories from Github
 organizations out of the way. This is sometimes necessary, particularly in large organizations that tend to
 manage a huge number of repositories.
@@ -29,7 +29,7 @@ By not passing the `-c` argument, all outdated repos will be archived locally:
 ```
 $ ./github_archiver.py -o your_organization -b blacklist.txt -w whitelist.txt your_username
 ```
-This will do a bare clone of all outdated repositories in `your_organization`.
+This will do a bare clone of all outdated repositories in `your_organization`. It will also make local copies of the associated Github wiki repositories and Github issues, that can then be restored using `github_restorer` (see below).
 
 If `-b blacklist.txt` is provided, the repositories listed in the `blacklist.txt` file (one repository name per line) will be archived instead (this overrides checking for outdated repositories) by doing a bare clone into the current working directory.
 
@@ -53,3 +53,14 @@ $ ./github_archiver.py -o your_organization -b blacklist.txt -w whitelist.txt -n
 
 ##github_restorer
 Script to restore a Github repo archived with the script above.
+
+Usage:
+```
+$ ./github_restorer.py
+usage: github_restorer.py [-h] [-o ORGANIZATION] [-f] username repository
+```
+
+Given a local copy of a repository archived with the `github_archiver` script above, living in the current working directory, you can restore the repository (including any associated Github wiki and Github issues) as follows:
+```
+$ ./github_restorer.py -o your_organization your_username your_repository
+```
