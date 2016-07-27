@@ -13,4 +13,4 @@ At the moment it contains:
 - **student_presentation_calendar**:
   Extract student presentation dates from excelsheets and upload them to a google calendar.
 
-For specifics on how to archive and restore ASL repositories, see [lab-infrastructure-private](https://github.com/ethz-asl/lab-infrastructure-private).
+For instructions on the internal usage of these scripts at [ASL](http://asl.ethz.ch) to archive and restore ASL repositories, see [lab-infrastructure-private](https://github.com/ethz-asl/lab-infrastructure-private).
