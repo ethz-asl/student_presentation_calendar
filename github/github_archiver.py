@@ -95,6 +95,10 @@ if __name__ == "__main__":
                         action='store_true',
                         help='delete flagged repos, will ask for confirmation '
                         '(off by default)')
+    parser.add_argument('-a', '--store_all', dest='store_all',
+                        action='store_true',
+                        help='consider all repositories, not only outdated ones '
+                        '(off by default)')
 
     args = parser.parse_args()
 
@@ -116,9 +120,12 @@ if __name__ == "__main__":
             print 'Fetching outdated repos...'
             a_year_ago =  datetime.datetime.now() - relativedelta(years=1)
 
-            print "The following repos have not been updated in the last year:"
+            if args.store_all:
+                print "The following repos have been found:"
+            else:
+                print "The following repos have not been updated in the last year:"
             for repo in all_repos:
-                if repo.updated_at < a_year_ago: # and repo.private:
+                if args.store_all or repo.updated_at < a_year_ago: # and repo.private:
                     print "    " + repo.name + ", last updated: " + \
                           str(repo.updated_at)
                     repo_list.append(repo.name)
