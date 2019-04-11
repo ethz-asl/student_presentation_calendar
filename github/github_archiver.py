@@ -75,6 +75,9 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--organization', dest='organization', type=str,
                         default='ethz-asl',
                         help='Github organization. Defaults to ethz-asl')
+    parser.add_argument('-T', '--access-token', dest='isAccessToken',
+                        default=False, action='store_true',
+                        help='If true the username is treated as personal oauth token (https://github.com/settings/tokens)')
     parser.add_argument('-c', '--check-only', dest='check_only',
                         action='store_true',
                         help='only check for outdated repos (no updates in '
@@ -103,13 +106,16 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     username = args.username
-    if "GITHUB_PASSWORD" in os.environ:
-        print "Taking password from GITHUB_PASSWORD environment variable."
-        password = os.environ.get("GITHUB_PASSWORD")
+    if args.isAccessToken:
+        password = None
     else:
-        print ("GITHUB_PASSWORD environment variable is not set, so will ask "
-              "for password.")
-        password = getpass.getpass("Enter password for %s: " % username)
+        if "GITHUB_PASSWORD" in os.environ:
+            print "Taking password from GITHUB_PASSWORD environment variable."
+            password = os.environ.get("GITHUB_PASSWORD")
+        else:
+            print ("GITHUB_PASSWORD environment variable is not set, so will ask "
+                  "for password.")
+            password = getpass.getpass("Enter password for %s: " % username)
 
     try:
         g = Github(username, password)
