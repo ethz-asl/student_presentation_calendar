@@ -119,6 +119,16 @@ if __name__ == "__main__":
 
     try:
         g = Github(username, password)
+        user = g.get_user()
+        try:
+          otp_auth = user.create_authorization(scopes=['user','repo','delete_repo'], note='otp_auth')
+        except GithubException as e:
+          # Unable to import TwoFactorAuthentication for some reason. Just assume anything
+          # that goes wrong is due to 2fa.
+          otp_key = raw_input("Enter github Two-Factor Auth key: ")
+          otp_auth = user.create_authorization(scopes=['user','repo','delete_repo'], note='otp_auth', onetime_password=otp_key)
+
+        g = Github(otp_auth.token)
         all_repos = g.get_organization(args.organization).get_repos()[:]
         repo_list = []
 
