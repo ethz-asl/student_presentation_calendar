@@ -163,12 +163,17 @@ if __name__ == "__main__":
             print "Archiving " + r + "..."
             repo = g.get_organization(args.organization).get_repo(r)
 
+            if args.isAccessToken:
+                clone_url = repo.clone_url.replace(
+                    "https://", "https://" + username +"@")
+            else:
+                clone_url = repo.ssh_url
             # Clone repo
             if os.path.exists(os.getcwd() + "/" + r + ".git"):
                 print ("!!! Could not clone " + r + ", name already exists in "
                        "current directory.")
             else:
-                ret = subprocess.call("git clone --mirror " + repo.ssh_url,
+                ret = subprocess.call("git clone --mirror '" + clone_url + "'",
                                       shell=True)
                 if ret == 0:
                     print r + " cloned successfully."
@@ -182,8 +187,8 @@ if __name__ == "__main__":
                 print ("!!! Could not clone " + r + "'s wiki, name already "
                        "exists in current directory.")
             else:
-                ret = subprocess.call("git clone --mirror " + \
-                                      repo.ssh_url[:-3] + "wiki.git", \
+                ret = subprocess.call("git clone --mirror '" + \
+                                      clone_url[:-3] + "wiki.git'", \
                                       shell=True)
                 if ret == 0:
                     print r + "'s wiki cloned successfully."
